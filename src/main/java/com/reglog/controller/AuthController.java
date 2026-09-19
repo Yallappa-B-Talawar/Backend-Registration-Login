@@ -40,7 +40,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping("/login/")
+    @PostMapping({"/login", "/login/"})
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
         try {
             String token = authService.authenticateAndGenerateToken(request);
@@ -76,7 +76,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/logout")
+    @PostMapping({"/logout", "/logout/"})
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
         String token = null;
         Cookie[] cookies = request.getCookies();

@@ -23,7 +23,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/reg")
+    @PostMapping({"/reg", "/reg/"})
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         try {
             User registeredUser = userService.registerUser(request);
@@ -45,7 +45,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/me")
+    @GetMapping({"/user/me", "/user/me/"})
     public ResponseEntity<?> getCurrentUser(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
             Map<String, String> error = new HashMap<>();

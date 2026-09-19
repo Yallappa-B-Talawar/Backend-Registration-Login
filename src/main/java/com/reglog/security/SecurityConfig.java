@@ -49,10 +49,10 @@ public class SecurityConfig {
                         })
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/reg").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/login/").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/logout").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/user/me").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/reg", "/api/reg/").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/login", "/api/login/").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/logout", "/api/logout/").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/user/me", "/api/user/me/").authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
