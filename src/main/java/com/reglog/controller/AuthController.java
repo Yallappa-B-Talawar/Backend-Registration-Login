@@ -30,6 +30,12 @@ public class AuthController {
     @Value("${jwt.cookie-name:token}")
     private String cookieName;
 
+    @Value("${app.cookie.secure:true}")
+    private boolean cookieSecure;
+
+    @Value("${app.cookie.samesite:None}")
+    private String cookieSameSite;
+
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
@@ -42,10 +48,10 @@ public class AuthController {
             // Create HttpOnly Cookie (1 hour = 3600 seconds)
             ResponseCookie cookie = ResponseCookie.from(cookieName, token)
                     .httpOnly(true)
-                    .secure(false) // Set to true in HTTPS production
+                    .secure(cookieSecure)
                     .path("/")
                     .maxAge(3600)
-                    .sameSite("Lax")
+                    .sameSite(cookieSameSite)
                     .build();
 
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
@@ -90,10 +96,10 @@ public class AuthController {
         // Clear HttpOnly Cookie
         ResponseCookie clearCookie = ResponseCookie.from(cookieName, "")
                 .httpOnly(true)
-                .secure(false)
+                .secure(cookieSecure)
                 .path("/")
                 .maxAge(0)
-                .sameSite("Lax")
+                .sameSite(cookieSameSite)
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, clearCookie.toString());
