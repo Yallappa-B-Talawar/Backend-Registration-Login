@@ -22,6 +22,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -49,8 +51,10 @@ public class SecurityConfig {
                         })
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/reg", "/api/reg/**", "/api/login", "/api/login/**", "/api/logout", "/api/logout/**").permitAll()
-                        .requestMatchers("/api/user/me", "/api/user/me/**").authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/api/reg/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/login/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/logout/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/user/me")).authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
